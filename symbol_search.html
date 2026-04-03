@@ -26,9 +26,9 @@
 
   let participant_id = "";
 
-  const fullscreen = {
+   const fullscreen = {
     type: jsPsychFullscreen,
-    message: '<p><span style="font-size: 14pt">以下のボタンをクリックすると、画面は全画面表示に切り替わります3。</span></p>',
+    message: '<p style="font-size: 24px;">全画表示に切り替えます</p>',
     button_label: "開始",
     fullscreen_mode: true
   };
@@ -36,24 +36,25 @@
   const form_trial = {
     type: jsPsychSurveyText,
     questions: [
-      { prompt: "参加者IDを入力してください", name: "ID", required: true }
+      {
+        prompt: '<p style="font-size: 24px;">参加者IDを入力してください</p>',
+        name: "ID",
+        required: true
+      }
     ],
     button_label: "次へ",
     on_finish: function(data) {
       participant_id = data.response.ID;
     }
   };
-
-  const welcome = {
-    type: jsPsychHtmlButtonResponse,
-    stimulus:
-      "<p><span style='font-size: 13pt'>画面の上部と下部に記号の</span></p>" +
-      "<p><span style='font-size: 13pt'>ペアが表示されます。</span></p>" +
-      "<p><span style='font-size: 13pt'>上に表示されているペアとまったく同じ</span></p>" +
-      "<p><span style='font-size: 13pt'>ペアを下から選んでタッチしてください。</span></p>" +
-      "<img src='/Symbol_Search/ex-01.png' style='width: 250px; height: 300px;'>",
-    choices: ["次へ"]
-  };
+const welcome = {
+  type: jsPsychHtmlButtonResponse,
+  stimulus:
+    "<p style='font-size:15pt;'>上と下に記号のペアが出ます。</p>" +
+    "<p style='font-size:15pt;'>上と同じペアを下から選んでください。</p>" +
+    "<img src='/Symbol_Search/ex-01.png' style='width:250px; height:350px;'>",
+  choices: ["次へ"]
+};
 
   const instruction = {
     type: jsPsychHtmlButtonResponse,
@@ -204,7 +205,7 @@
 
   const debrief = {
     type: jsPsychHtmlButtonResponse,
-    stimulus: "<p>下の課題完了ボタンを押た後，ブラウザを閉じて終了してください。ご参加ありがとうございました。</p>",
+    stimulus: "<p>下の課題完了ボタンを押た後，ブラウザを閉じて終了してください。ありがとうございました。</p>",
     choices: ["課題完了"]
   };
 
@@ -212,7 +213,7 @@
     type: jsPsychPipe,
     action: "save",
     experiment_id: expID,
-    filename: () => `symbol_sm_${participant_id}.csv`,
+    filename: () => `symbol_${participant_id}.csv`,
     data_string: () => jsPsych.data.get().csv()
   };
 
