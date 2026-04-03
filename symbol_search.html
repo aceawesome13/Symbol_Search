@@ -12,6 +12,21 @@
   <script src="https://unpkg.com/@jspsych/plugin-fullscreen@1.1.2"></script>
   <script src="https://unpkg.com/@jspsych-contrib/plugin-pipe"></script>
   <link href="https://unpkg.com/jspsych@7.3.2/css/jspsych.css" rel="stylesheet" />
+  <style>
+    #done {
+      display: block;
+      margin: 20px auto;
+      padding: 16px 32px;
+      font-size: 28px;
+      border-radius: 10px;
+    }
+
+    .jspsych-btn {
+      font-size: 28px;
+      padding: 16px 32px;
+      border-radius: 10px;
+    }
+  </style>
 </head>
 <body></body>
 
@@ -23,7 +38,7 @@
 
   const fullscreen = {
     type: jsPsychFullscreen,
-    message: '<p style="font-size: 24px;">全画表示に切り替えます</p>',
+    message: '<p style="font-size: 24px;">全画表示に切り替えます1</p>',
     button_label: "開始",
     fullscreen_mode: true
   };
