@@ -22,13 +22,13 @@
   const expID = "owOXtEp7X285";
 
 
-  const subject_id = jsPsych.randomization.randomID(10);
+  const subject_id = "";
 
   let participant_id = "";
 
   const fullscreen = {
     type: jsPsychFullscreen,
-    message: '<p><span style="font-size: 14pt">以下のボタンをクリックすると、画面は全画面表示に切り替わります1。</span></p>',
+    message: '<p><span style="font-size: 14pt">以下のボタンをクリックすると、画面は全画面表示に切り替わります3。</span></p>',
     button_label: "開始",
     fullscreen_mode: true
   };
@@ -184,19 +184,19 @@
         },
         response_ends_trial: false
       },
-      {
-        type: jsPsychHtmlButtonResponse,
-        stimulus: jsPsych.timelineVariable("stimulus"),
-        choices: jsPsych.timelineVariable("target"),
-        button_html: '<button class="jspsych-btn">%choice%</button>',
-        trial_duration: 20000,
-        data: jsPsych.timelineVariable("data"),
-        on_finish: function(data) {
-          data.correct = Number(data.correct_position == data.response);
-          data.participant_id = participant_id;
-          data.subject_id = subject_id;
-        }
-      }
+     {
+  type: jsPsychHtmlButtonResponse,
+  stimulus: jsPsych.timelineVariable("stimulus"),
+  choices: jsPsych.timelineVariable("target"),
+  button_html: '<button class="jspsych-btn" style="border:none; background:transparent; padding:0; margin:0 10px; box-shadow:none;">%choice%</button>',
+  trial_duration: 20000,
+  data: jsPsych.timelineVariable("data"),
+  on_finish: function(data) {
+    data.correct = Number(data.correct_position == data.response);
+    data.participant_id = participant_id;
+    data.subject_id = subject_id;
+  }
+}
     ],
     timeline_variables: stimuli,
     sample: { type: "fixed-repetitions", size: 1 }
@@ -212,7 +212,7 @@
     type: jsPsychPipe,
     action: "save",
     experiment_id: expID,
-    filename: () => `symbol_sm_${participant_id}_${subject_id}.csv`,
+    filename: () => `symbol_sm_${participant_id}.csv`,
     data_string: () => jsPsych.data.get().csv()
   };
 
