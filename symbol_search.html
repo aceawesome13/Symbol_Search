@@ -5,38 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Symbol Search</title>
 
-  <!-- jsPsych 7 -->
   <script src="https://unpkg.com/jspsych@7.3.2"></script>
   <script src="https://unpkg.com/@jspsych/plugin-survey-text@1.1.2"></script>
   <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.2"></script>
   <script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.1.2"></script>
   <script src="https://unpkg.com/@jspsych/plugin-fullscreen@1.1.2"></script>
   <script src="https://unpkg.com/@jspsych-contrib/plugin-pipe"></script>
-
   <link href="https://unpkg.com/jspsych@7.3.2/css/jspsych.css" rel="stylesheet" />
 </head>
 <body></body>
 
 <script>
-  // jsPsych 시작
   const jsPsych = initJsPsych();
 
-  // 저장용 ID
-  const subject_id = jsPsych.randomization.randomID(10);
-  const filename = `symbol_sm_${subject_id}.csv`;
+  
+  const expID = "owOXtEp7X285";
 
-  // 참가자 입력 ID
+
+  const subject_id = jsPsych.randomization.randomID(10);
+
   let participant_id = "";
 
-  /* 전체화면 */
   const fullscreen = {
     type: jsPsychFullscreen,
-    message: '<p><span style="font-size: 14pt">以下のボタンをクリックすると、画面は全画面表示に切り替わります2。</span></p>',
+    message: '<p><span style="font-size: 14pt">以下のボタンをクリックすると、画面は全画面表示に切り替わります。</span></p>',
     button_label: "開始",
     fullscreen_mode: true
   };
 
-  /* 참가자 ID 입력 */
   const form_trial = {
     type: jsPsychSurveyText,
     questions: [
@@ -48,7 +44,6 @@
     }
   };
 
-  /* 안내 */
   const welcome = {
     type: jsPsychHtmlButtonResponse,
     stimulus:
@@ -68,7 +63,6 @@
     choices: ["スタート"]
   };
 
-  /* 이미지 경로: 절대경로 */
   const allImages = [
     "/Symbol_Search/ss-01.svg",
     "/Symbol_Search/ss-02.svg",
@@ -103,7 +97,6 @@
 
   const stimuli = [];
 
-  /* Normal stage */
   for (let i = 0; i < 2; i++) {
     const chosenImages = [];
     while (chosenImages.length < 22) {
@@ -138,7 +131,6 @@
         "<div style='display: flex; flex-direction: column; align-items: center;'>" +
         "<img src='" + targetImages[0] + "' width='140px' height='130px' style='margin-bottom: -15px;'/>" +
         "<img src='" + targetImages[1] + "' width='140px' height='130px' style='margin-top: -25px;'/></div></div>",
-
       "<div style='display: inline-block; border: 4px solid black; padding: 0px; margin-right: 5px; width: 100px; text-align: center;'>" +
         "<div style='display: flex; flex-direction: column; align-items: center;'>" +
         "<img src='" + additionalTargetImages[0] + "' width='140px' height='130px' style='margin-bottom: -15px;'/>" +
@@ -160,15 +152,12 @@
       stimulus:
         "<div style='display: flex; flex-direction: column; align-items: center; margin-bottom: 0px; padding: 10px;'>" +
         "<div style='display: flex; justify-content: center;'>" +
-
         "<div style='border: 4px solid black; padding: 0px; width: 100px; display: flex; flex-direction: column; align-items: center; margin-right: 10px;'>" +
         "<img src='" + frameImages[0][0] + "' width='140px' height='130px' style='margin-bottom: -15px;'/>" +
         "<img src='" + frameImages[0][1] + "' width='140px' height='130px' style='margin-top: -25px;'/></div>" +
-
         "<div style='border: 4px solid black; padding: 0px; width: 100px; display: flex; flex-direction: column; align-items: center; margin-right: 10px;'>" +
         "<img src='" + frameImages[1][0] + "' width='140px' height='130px' style='margin-bottom: -15px;'/>" +
         "<img src='" + frameImages[1][1] + "' width='140px' height='130px' style='margin-top: -25px;'/></div>" +
-
         "<div style='border: 4px solid black; padding: 0px; width: 100px; display: flex; flex-direction: column; align-items: center;'>" +
         "<img src='" + frameImages[2][0] + "' width='140px' height='130px' style='margin-bottom: -15px;'/>" +
         "<img src='" + frameImages[2][1] + "' width='140px' height='130px' style='margin-top: -25px;'/></div>" +
@@ -179,110 +168,11 @@
       data: {
         no: (i + 1).toString(),
         stim_type: "normal",
-        frame_images: frameImages,
-        correct_choice: targetImages,
-        additional_target_images: additionalTargetImages,
-        combined_targets: combinedTargets,
         correct_position: correctPosition
       }
     });
   }
 
-  /* Lure stage */
-  for (let i = 0; i < 2; i++) {
-    const chosenImages = [];
-    while (chosenImages.length < 22) {
-      const randomImage = getRandomImage(allImages);
-      if (!chosenImages.includes(randomImage)) {
-        chosenImages.push(randomImage);
-      }
-    }
-
-    const frameImages = [
-      [chosenImages[0], chosenImages[1]],
-      [chosenImages[2], chosenImages[3]],
-      [chosenImages[4], chosenImages[5]]
-    ];
-
-    const correctFrameIndex = Math.floor(Math.random() * 3);
-    const targetImages = frameImages[correctFrameIndex];
-
-    const additionalTargetImages = [];
-    let additionalTargetImage;
-
-    do {
-      additionalTargetImage = chosenImages[Math.floor(Math.random() * 3) * 2];
-    } while (additionalTargetImage === targetImages[0]);
-
-    additionalTargetImages.push(additionalTargetImage);
-
-    while (additionalTargetImages.length < 2) {
-      const anotherTargetImage = getRandomImage(
-        allImages.filter(img =>
-          !chosenImages.includes(img) &&
-          !additionalTargetImages.includes(img) &&
-          img !== targetImages[0]
-        )
-      );
-      additionalTargetImages.push(anotherTargetImage);
-    }
-
-    const combinedTargets = [
-      "<div style='display: inline-block; border: 4px solid black; padding: 0px; margin-right: 5px; width: 100px; text-align: center;'>" +
-        "<div style='display: flex; flex-direction: column; align-items: center;'>" +
-        "<img src='" + targetImages[0] + "' width='140px' height='130px' style='margin-bottom: -15px;'/>" +
-        "<img src='" + targetImages[1] + "' width='140px' height='130px' style='margin-top: -25px;'/></div></div>",
-
-      "<div style='display: inline-block; border: 4px solid black; padding: 0px; margin-right: 5px; width: 100px; text-align: center;'>" +
-        "<div style='display: flex; flex-direction: column; align-items: center;'>" +
-        "<img src='" + additionalTargetImages[0] + "' width='140px' height='130px' style='margin-bottom: -15px;'/>" +
-        "<img src='" + additionalTargetImages[1] + "' width='140px' height='130px' style='margin-top: -25px;'/></div></div>"
-    ];
-
-    let shuffledTargets;
-    let correctPosition;
-
-    if (Math.random() < 0.5) {
-      shuffledTargets = [combinedTargets[0], combinedTargets[1]];
-      correctPosition = 0;
-    } else {
-      shuffledTargets = [combinedTargets[1], combinedTargets[0]];
-      correctPosition = 1;
-    }
-
-    stimuli.push({
-      stimulus:
-        "<div style='display: flex; flex-direction: column; align-items: center; margin-bottom: 0px; padding: 10px;'>" +
-        "<div style='display: flex; justify-content: center;'>" +
-
-        "<div style='border: 4px solid black; padding: 0px; width: 100px; display: flex; flex-direction: column; align-items: center; margin-right: 10px;'>" +
-        "<img src='" + frameImages[0][0] + "' width='140px' height='130px' style='margin-bottom: -15px;'/>" +
-        "<img src='" + frameImages[0][1] + "' width='140px' height='130px' style='margin-top: -25px;'/></div>" +
-
-        "<div style='border: 4px solid black; padding: 0px; width: 100px; display: flex; flex-direction: column; align-items: center; margin-right: 10px;'>" +
-        "<img src='" + frameImages[1][0] + "' width='140px' height='130px' style='margin-bottom: -15px;'/>" +
-        "<img src='" + frameImages[1][1] + "' width='140px' height='130px' style='margin-top: -25px;'/></div>" +
-
-        "<div style='border: 4px solid black; padding: 0px; width: 100px; display: flex; flex-direction: column; align-items: center;'>" +
-        "<img src='" + frameImages[2][0] + "' width='140px' height='130px' style='margin-bottom: -15px;'/>" +
-        "<img src='" + frameImages[2][1] + "' width='140px' height='130px' style='margin-top: -25px;'/></div>" +
-        "</div>" +
-        "<div style='text-align: center; margin: 20px; font-size: 18px;'>どれが上のペアと一致しますか？</div>" +
-        "</div>",
-      target: shuffledTargets,
-      data: {
-        no: (i + 1).toString(),
-        stim_type: "lure",
-        frame_images: frameImages,
-        correct_choice: targetImages,
-        additional_target_images: additionalTargetImages,
-        combined_targets: combinedTargets,
-        correct_position: correctPosition
-      }
-    });
-  }
-
-  /* 과제 본체 */
   const task_procedure = {
     timeline: [
       {
@@ -302,11 +192,7 @@
         trial_duration: 20000,
         data: jsPsych.timelineVariable("data"),
         on_finish: function(data) {
-          let correct = 0;
-          if (data.correct_position == data.response) {
-            correct = 1;
-          }
-          data.correct = correct;
+          data.correct = Number(data.correct_position == data.response);
           data.participant_id = participant_id;
           data.subject_id = subject_id;
         }
@@ -322,26 +208,24 @@
     choices: ["課題完了"]
   };
 
-  /* 저장 */
   const save_data = {
     type: jsPsychPipe,
     action: "save",
-    experiment_id: "owOXtEp7X285",
-    filename: filename,
+    experiment_id: expID,
+    filename: () => `symbol_sm_${participant_id}_${subject_id}.csv`,
     data_string: () => jsPsych.data.get().csv()
   };
 
-  /* 타임라인 */
-  const timeline = [];
-  timeline.push(fullscreen);
-  timeline.push(form_trial);
-  timeline.push(welcome);
-  timeline.push(instruction);
-  timeline.push(task_procedure);
-  timeline.push(debrief);
-  timeline.push(save_data);
+  const timeline = [
+    fullscreen,
+    form_trial,
+    welcome,
+    instruction,
+    task_procedure,
+    debrief,
+    save_data
+  ];
 
-  /* 실행 */
   jsPsych.run(timeline);
 </script>
 </html>
