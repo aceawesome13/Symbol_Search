@@ -17,14 +17,14 @@
 <body></body>
 
 <script>
-/*ID(日付時刻_８桁の乱数)の設定*/
+/* ID(日付時刻_８桁の乱数)の設定 */
 // 乱数
 var l = 8;
 var c = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 var cl = c.length;
 var r_num = "";
-for(var i=0; i<l; i++){
-  r_num += c[Math.floor(Math.random()*cl)];
+for (var i = 0; i < l; i++) {
+  r_num += c[Math.floor(Math.random() * cl)];
 }
 
 // 日付時刻
@@ -51,7 +51,7 @@ var participant_id = "";
 var form_trial = {
   type: "survey-text",
   questions: [
-    {prompt: "参加者IDを入力してください", name: 'ID', required: true}
+    { prompt: "参加者IDを入力してください", name: 'ID', required: true }
   ],
   button_label: "次へ",
   on_finish: function(data) {
@@ -67,7 +67,7 @@ var welcome = {
     "<p><span style='font-size: 13pt'>ペアが表示されます。</span></p>" +
     "<p><span style='font-size: 13pt'>上に表示されているペアとまったく同じ</span></p>" +
     "<p><span style='font-size: 13pt'>ペアを下から選んでタッチしてください。</span></p>" +
-    "<img src='ex-01.png' style='width: 250px; height: 300px;'>",
+    "<img src='/Symbol_Search/ex-01.png' style='width: 250px; height: 300px;'>",
   choices: ['次へ']
 };
 
@@ -80,30 +80,30 @@ var instruction = {
 };
 
 var allImages = [
-  "ss-01.svg",
-  "ss-02.svg",
-  "ss-03.svg",
-  "ss-04.svg",
-  "ss-05.svg",
-  "ss-06.svg",
-  "ss-07.svg",
-  "ss-08.svg",
-  "ss-09.svg",
-  "ss-10.svg",
-  "ss-11.svg",
-  "ss-12.svg",
-  "ss-13.svg",
-  "ss-14.svg",
-  "ss-15.svg",
-  "ss-16.svg",
-  "ss-17.svg",
-  "ss-18.svg",
-  "ss-19.svg",
-  "ss-20.svg",
-  "ss-21.svg",
-  "ss-22.svg",
-  "ss-23.svg",
-  "ss-24.svg"
+  "/Symbol_Search/ss-01.svg",
+  "/Symbol_Search/ss-02.svg",
+  "/Symbol_Search/ss-03.svg",
+  "/Symbol_Search/ss-04.svg",
+  "/Symbol_Search/ss-05.svg",
+  "/Symbol_Search/ss-06.svg",
+  "/Symbol_Search/ss-07.svg",
+  "/Symbol_Search/ss-08.svg",
+  "/Symbol_Search/ss-09.svg",
+  "/Symbol_Search/ss-10.svg",
+  "/Symbol_Search/ss-11.svg",
+  "/Symbol_Search/ss-12.svg",
+  "/Symbol_Search/ss-13.svg",
+  "/Symbol_Search/ss-14.svg",
+  "/Symbol_Search/ss-15.svg",
+  "/Symbol_Search/ss-16.svg",
+  "/Symbol_Search/ss-17.svg",
+  "/Symbol_Search/ss-18.svg",
+  "/Symbol_Search/ss-19.svg",
+  "/Symbol_Search/ss-20.svg",
+  "/Symbol_Search/ss-21.svg",
+  "/Symbol_Search/ss-22.svg",
+  "/Symbol_Search/ss-23.svg",
+  "/Symbol_Search/ss-24.svg"
 ];
 
 function getRandomImage(images) {
@@ -308,7 +308,7 @@ var task_procedure = {
       stimulus: jsPsych.timelineVariable('stimulus'),
       type: 'html-button-response',
       choices: jsPsych.timelineVariable('target'),
-      button_html: '%choice%',
+      button_html: '<button class="jspsych-btn">%choice%</button>',
       trial_duration: 20000,
       data: jsPsych.timelineVariable('data'),
       on_finish: function(data) {
