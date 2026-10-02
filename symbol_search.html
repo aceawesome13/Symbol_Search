@@ -10,6 +10,7 @@
   <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.2"></script>
   <script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.1.2"></script>
   <script src="https://unpkg.com/@jspsych/plugin-fullscreen@1.1.2"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-preload@1.1.2"></script>
   <script src="https://unpkg.com/@jspsych-contrib/plugin-pipe"></script>
   <link href="https://unpkg.com/jspsych@7.3.2/css/jspsych.css" rel="stylesheet" />
   <style>
@@ -35,7 +36,7 @@
 
   const fullscreen = {
     type: jsPsychFullscreen,
-    message: '<p style="font-size: 24px;">全画表示に切り替えます</p>',
+    message: '<p style="font-size: 24px;">1全画表示に切り替えます</p>',
     button_label: "開始",
     fullscreen_mode: true
   };
@@ -98,7 +99,14 @@
     "/Symbol_Search/ss-23.svg",
     "/Symbol_Search/ss-24.svg"
   ];
-
+const preload = {
+  type: jsPsychPreload,
+  images: [
+    "/Symbol_Search/ex-01.png",
+    ...allImages
+  ],
+  show_progress_bar: true
+};
   function getRandomImage(images) {
     const randomIndex = Math.floor(Math.random() * images.length);
     return images[randomIndex];
@@ -317,15 +325,16 @@
     data_string: () => jsPsych.data.get().csv()
   };
 
-  const timeline = [
-    fullscreen,
-    form_trial,
-    welcome,
-    instruction,
-    task_procedure,
-    debrief,
-    save_data
-  ];
+const timeline = [
+  preload,        // ← 이미지 먼저 모두 불러오기
+  fullscreen,
+  form_trial,
+  welcome,
+  instruction,
+  task_procedure,
+  debrief,
+  save_data
+];
 
   jsPsych.run(timeline);
 </script>
